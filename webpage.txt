@@ -1,0 +1,15 @@
+------- MAIN PAGE -----------
+Danh mục sản phẩm
+
+
+
+
+------ Trang danh mục --------
+Danh sách các sản phẩm trong sản phẩm
+
+
+
+
+----- Trang sản phẩm ----------
+Tên sản phẩm
+Giá tiền

@@ -1,0 +1,8 @@
+review_structure
+{
+	review_id: int
+	number of stars: int
+	product_id: int
+	parent_id: int
+	comment: string
+}
