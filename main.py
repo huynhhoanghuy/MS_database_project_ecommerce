@@ -131,6 +131,7 @@ if __name__ == "__main__":
     print(redisDB.getCart(user2Id))
 
     execute_schema("insert_orders.sql")
+    execute_schema("insert_order_related.sql")
     mysqldb.commit()
     # close connection to mysql db
     mysqldb.close()
