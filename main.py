@@ -3,6 +3,9 @@ import pymongo
 import redis
 from sample_cart import sample_carts
 import json
+from mongo_utilize import create_mongo_db, connect_mongo_db
+import insert_list_product_data, insert_list_product_type_data, insert_list_image_data
+
 
 
 def execute_schema(file_path):
@@ -63,6 +66,29 @@ if __name__ == "__main__":
     mysqldb.commit()
     # connect to mongo db
     mongoclient = pymongo.MongoClient("mongodb://localhost:27017/")
+
+    mongo_mydb = create_mongo_db(mongoclient)
+
+    # create collection
+    mongo_mycol = mongo_mydb["Product"]
+
+    # insert data in product collection
+    list_product = insert_list_product_data.list_product
+    x = mongo_mycol.insert_many(list_product)
+
+    # create collection
+    mongo_mycol = mongo_mydb["Product_type"]
+
+    #insert data in product collection
+    list_product_type = insert_list_product_type_data.list_product_type
+    x = mongo_mycol.insert_many(list_product_type)
+
+    #create collection
+    mongo_mycol = mongo_mydb["Image"]
+
+    #insert data in product collection
+    list_image = insert_list_image_data.list_image
+    x = mongo_mycol.insert_many(list_image)
 
     # user click on a category
     # clicked_id = int(input("Enter category id (taxon id):"))
