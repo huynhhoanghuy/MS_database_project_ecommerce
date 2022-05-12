@@ -8,7 +8,7 @@ if __name__ == "__main__":
     myconn = mysql.connector.connect(
     host="localhost",
     username="root",
-    password="")
+    password="hoangHuy0206")
 
     # tạo đối tượng cursor
     cur = myconn.cursor()
@@ -27,13 +27,12 @@ if __name__ == "__main__":
     mysqldb = mysql.connector.connect(
     host="localhost",
     username="root",
-    password="",
+    password="hoangHuy0206",
     database="TEAM")
 
     mysqlcursor = mysqldb.cursor()
 
     #init schema
-
     with open("schema.sql") as f:
         command = f.read().replace('\n',"").replace('\t',"")
     command = command.split(';')
@@ -82,10 +81,20 @@ if __name__ == "__main__":
     for row in result:
         print(row)
 
-    
+    #init schema
+    with open("userSchema.sql") as f:
+        command = f.read().replace('\n',"").replace('\t',"")
+    command = command.split(';')
+    for c in command:
+        if c != "":
+            print("command:",c)
+            mysqlcursor.execute(c+";")
+            print("-------")
+    result = mysqlcursor.fetchall()
 
     # close connection to mysql db
     mysqldb.close()
 
     # close connection to mongo db
     mongoclient.close()
+
