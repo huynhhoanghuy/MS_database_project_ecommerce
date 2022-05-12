@@ -1,7 +1,5 @@
 import mysql.connector
 import pymongo
-from mongo_utilize import create_mongo_db, connect_mongo_db
-import insert_list_product_data, insert_list_product_type_data, insert_list_image_data
 
 if __name__ == "__main__":
 
@@ -10,7 +8,7 @@ if __name__ == "__main__":
     myconn = mysql.connector.connect(
     host="localhost",
     username="root",
-    password="")
+    password="hoangHuy0206")
 
     # tạo đối tượng cursor
     cur = myconn.cursor()
@@ -29,7 +27,7 @@ if __name__ == "__main__":
     mysqldb = mysql.connector.connect(
     host="localhost",
     username="root",
-    password="",
+    password="hoangHuy0206",
     database="TEAM")
 
     mysqlcursor = mysqldb.cursor()
@@ -94,18 +92,20 @@ if __name__ == "__main__":
     list_image = insert_list_image_data.list_image
     x = mongo_mycol.insert_many(list_image)
 
-    # user click on a category
-    clicked_id = int(input("Enter category id (taxon id):"))
 
-    # get all products that belong to this category
-    print("Pick product from TEAM_PRODUCT with taxon_id:")
-    mysqlcursor.execute(
-            "select * from TEAM_PRODUCT where taxon_id = {0}".format(clicked_id))
-    result = mysqlcursor.fetchall()
-    for row in result:
-        print(row)
 
-    #init schema
+    # # user click on a category
+    # clicked_id = int(input("Enter category id (taxon id):"))
+
+    # # get all products that belong to this category
+    # print("Pick product from TEAM_PRODUCT with taxon_id:")
+    # mysqlcursor.execute(
+    #         "select * from TEAM_PRODUCT where taxon_id = {0}".format(clicked_id))
+    # result = mysqlcursor.fetchall()
+    # for row in result:
+    #     print(row)
+
+    #init user schema
     with open("userSchema.sql") as f:
         command = f.read().replace('\n',"").replace('\t',"")
     command = command.split(';')
@@ -115,6 +115,39 @@ if __name__ == "__main__":
             mysqlcursor.execute(c+";")
             print("-------")
     result = mysqlcursor.fetchall()
+
+    #init payment schema
+    with open("paymentSchema.sql") as f:
+        command = f.read().replace('\n',"").replace('\t',"")
+    command = command.split(';')
+    for c in command:
+        if c != "":
+            print("command:",c)
+            mysqlcursor.execute(c+";")
+            print("-------")
+    result = mysqlcursor.fetchall()
+
+    #insert data into user
+    with open("insert_user.sql") as f:
+        command = f.read().replace('\n',"").replace('\t',"")
+    command = command.split(';')
+    for c in command:
+        if c != "":
+            print("command:",c)
+            mysqlcursor.execute(c+";")
+            print("-------")
+    result = mysqlcursor.fetchall()
+    
+    # user click on a category
+    clicked_id = int(input("Enter category id (taxon id):"))
+    
+    # get all products that belong to this category
+    print("Show Info user from USER_INFO with user_id:")
+    mysqlcursor.execute(
+            "select * from PAYMENT where user_id = '1'".format(clicked_id))
+    result = mysqlcursor.fetchall()
+    for row in result:
+        print(row)
 
     # close connection to mysql db
     mysqldb.close()
