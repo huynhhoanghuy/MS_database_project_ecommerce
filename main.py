@@ -1,100 +1,103 @@
 import mysql.connector
 import pymongo
+import redis
+from sample_cart import sample_carts
+import json
+
+
+def execute_schema(file_path):
+    # init schema
+    with open(file_path) as f:
+        command = f.read().replace('\n', "").replace('\t', "")
+    command = command.split(';')
+    for c in command:
+        if c != "":
+            try:
+                print("command:", c)
+                mysqlcursor.execute(c+";")
+                print("-------")
+            except Exception as e:
+                print("Error: ", e)
+
 
 if __name__ == "__main__":
 
-    
-
-    myconn = mysql.connector.connect(
-    host="localhost",
-    username="root",
-    password="hoangHuy0206")
-
-    # tạo đối tượng cursor
-    cur = myconn.cursor()
-
-    try:
-        cur.execute("create database TEAM")
-        dbs = cur.execute("show databases")
-        for x in cur:
-            print(x)
-    except:
-        myconn.rollback()
-    
-    myconn.close()
+    # myconn = mysql.connector.connect(
+    # host="remotemysql.com:3306",
+    # username="oFKYiTMu3e",
+    # password="U0yUKMhIQz")
+    #
+    # # tạo đối tượng cursor
+    # cur = myconn.cursor()
+    #
+    # try:
+    #     cur.execute("create database TEAM")
+    #     dbs = cur.execute("show databases")
+    #     for x in cur:
+    #         print(x)
+    # except:
+    #     myconn.rollback()
+    #
+    # myconn.close()
 
     # connect to mysql db
     mysqldb = mysql.connector.connect(
-    host="localhost",
-    username="root",
-    password="hoangHuy0206",
-    database="TEAM")
+        host="remotemysql.com",
+        username="oFKYiTMu3e",
+        password="U0yUKMhIQz",
+        database="oFKYiTMu3e")
 
     mysqlcursor = mysqldb.cursor()
 
-    #init schema
-    with open("schema.sql") as f:
-        command = f.read().replace('\n',"").replace('\t',"")
-    command = command.split(';')
-    for c in command:
-        if c != "":
-            print("command:",c)
-            mysqlcursor.execute(c+";")
-            print("-------")
-    result = mysqlcursor.fetchall()
-    
-    #insert data into taxon
-    with open("insert_data_taxon.sql") as f:
-        command = f.read().replace('\n',"").replace('\t',"")
-    command = command.split(';')
-    for c in command:
-        if c != "":
-            print("command:",c)
-            mysqlcursor.execute(c+";")
-            print("-------")
-    result = mysqlcursor.fetchall()
+    execute_schema("schema.sql")
+    execute_schema("userSchema.sql")
+    execute_schema("orderSchema.sql")
 
-    #insert data into product
-    with open("insert_data_product.sql") as f:
-        command = f.read().replace('\n',"").replace('\t',"")
-    command = command.split(';')
-    for c in command:
-        if c != "":
-            print("command:",c)
-            mysqlcursor.execute(c+";")
-            print("-------")
-    result = mysqlcursor.fetchall()
+    execute_schema("insert_user.sql")
+    mysqldb.commit()
+    # insert data into taxon
+    execute_schema("insert_data_taxon.sql")
 
-    
+    # insert data into product
+    # execute_schema("insert_data_product.sql")
+    mysqldb.commit()
     # connect to mongo db
     mongoclient = pymongo.MongoClient("mongodb://localhost:27017/")
 
-
     # user click on a category
-    clicked_id = int(input("Enter category id (taxon id):"))
+    # clicked_id = int(input("Enter category id (taxon id):"))
 
-    # get all products that belong to this category
-    print("Pick product from TEAM_PRODUCT with taxon_id:")
-    mysqlcursor.execute(
-            "select * from TEAM_PRODUCT where taxon_id = {0}".format(clicked_id))
-    result = mysqlcursor.fetchall()
-    for row in result:
-        print(row)
+    # # get all products that belong to this category
+    # print("Pick product from TEAM_PRODUCT with taxon_id:")
+    # mysqlcursor.execute(
+    #     "select * from TEAM_PRODUCT where taxon_id = {0}".format(clicked_id))
+    # result = mysqlcursor.fetchall()
+    # for row in result:
+    #     print(row)
 
-    #init schema
-    with open("userSchema.sql") as f:
-        command = f.read().replace('\n',"").replace('\t',"")
-    command = command.split(';')
-    for c in command:
-        if c != "":
-            print("command:",c)
-            mysqlcursor.execute(c+";")
-            print("-------")
-    result = mysqlcursor.fetchall()
+    ######## CART SECTION ############
+    redisDB = redis.Redis(
+        host="redis-16819.c85.us-east-1-2.ec2.cloud.redislabs.com", port=16819, db=0, password="iuaEzgb9qfWREWqVoiBYnR1DMpLLoJez")
 
+    # insert cart of user 1 to redis db
+    user1Id = 1
+    redisDB.set(user1Id, json.dumps(sample_carts[user1Id]))
+
+    # insert cart of user 2 to redis db
+    user2Id = 2
+    redisDB.set(user2Id, json.dumps(sample_carts[user2Id]))
+
+    # show cart of user 1 to redis db
+    print("Cart of user {}".format(user1Id))
+    print(json.loads(redisDB.get(user1Id)))
+
+    # show cart of user 2 to redis db
+    print("Cart of user {}".format(user2Id))
+    print(json.loads(redisDB.get(user2Id)))
+
+    execute_schema("insert_orders.sql")
     # close connection to mysql db
     mysqldb.close()
 
     # close connection to mongo db
     mongoclient.close()
-
