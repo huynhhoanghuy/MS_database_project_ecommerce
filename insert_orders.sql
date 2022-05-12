@@ -1,4 +1,3 @@
--- RECORD 1
 INSERT INTO
   ORDERS (order_id, cost, user_id)
 VALUES
@@ -19,7 +18,6 @@ INSERT INTO
 VALUES
   (1, 1, 1, "DELI");
 
--- RECORD 2
 INSERT INTO
   ORDERS (order_id, cost, user_id)
 VALUES

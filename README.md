@@ -35,3 +35,6 @@ sudo service mongod start
 
 pip install pymongo
 
+
+==> Install redis
+pip install redis
