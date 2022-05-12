@@ -3,7 +3,7 @@ USE MySQLDB;
 INSERT INTO
   ORDER_PRODUCT (order_id, product_id, cost, quantity)
 VALUES
-  (1, 1, 10000, 1);
+  ("1", "1", 10000, 1);
 
 INSERT INTO
   SHIPPING (
@@ -13,13 +13,13 @@ INSERT INTO
     shipping_status
   )
 VALUES
-  (1, 1, 1, "DELI");
+  ("1", "1", "01", "DELI");
 
 INSERT INTO
   ORDER_PRODUCT (order_id, product_id, cost, quantity)
 VALUES
-  (2, 1, 10000, 1),
-  (2, 2, 2000, 2);
+  ("2", "1", 10000, 1),
+  ("2", "2", 2000, 2);
 
 INSERT INTO
   SHIPPING (
@@ -29,4 +29,4 @@ INSERT INTO
     shipping_status
   )
 VALUES
-  (2, 2, 2, "RECI");
+  ("2", "2", "02", "RECI");

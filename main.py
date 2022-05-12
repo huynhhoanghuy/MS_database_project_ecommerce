@@ -65,9 +65,12 @@ if __name__ == "__main__":
     execute_schema("paymentSchema.sql")
 
     execute_schema("insert_user.sql")
+    execute_schema("insert_orders.sql")
+    execute_schema("insert_payment.sql")
+
     mysqldb.commit()
     # insert data into taxon
-    execute_schema("insert_data_taxon.sql")
+    # execute_schema("insert_data_taxon.sql")
 
     # insert data into product
     # execute_schema("insert_data_product.sql")
@@ -130,7 +133,6 @@ if __name__ == "__main__":
     print("Cart of user {}".format(user2Id))
     print(redisDB.getCart(user2Id))
 
-    execute_schema("insert_orders.sql")
     execute_schema("insert_order_related.sql")
     mysqldb.commit()
     # close connection to mysql db

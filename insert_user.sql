@@ -24,11 +24,6 @@ VALUES
     ("2", "sBydsads.html", "3245", TIMESTAMP ('2022-04-30', '02:00:45'), TIMESTAMP ('2022-04-30', '02:05:50')),
     ("3", "sBydsads.html", "3435", TIMESTAMP ('2022-06-02', '12:30:45'), TIMESTAMP ('2022-06-02', '12:30:46'));
 
-INSERT INTO PAYMENT (user_id, address_id, order_id, payment_id, payment_type, create_at, is_comlete)
-VALUES
-    ("1", "01", "080231", "123", "MOMO", TIMESTAMP ('2022-04-02', '12:30:45'), TRUE),
-    ("2", "02", "3123F4", "456", "VISA", TIMESTAMP ('2022-04-30', '02:00:45'), FALSE),
-    ("3", "03", "DS3213", "132", "CASH", TIMESTAMP ('2022-06-02', '11:30:46'), TRUE);
 
 INSERT INTO E_WALLET (user_id, name_wallet, is_verified)
 VALUES
