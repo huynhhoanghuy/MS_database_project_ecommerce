@@ -1,11 +1,10 @@
 import mysql.connector
 import pymongo
-import redis
-from sample_cart import sample_carts
-import json
 from mongo_utilize import create_mongo_db, connect_mongo_db
 import insert_list_product_data, insert_list_product_type_data, insert_list_image_data
-
+import json
+import redis
+from sample_cart import sample_carts
 
 
 def execute_schema(file_path):
@@ -55,6 +54,7 @@ if __name__ == "__main__":
     execute_schema("schema.sql")
     execute_schema("userSchema.sql")
     execute_schema("orderSchema.sql")
+    execute_schema("paymentSchema.sql")
 
     execute_schema("insert_user.sql")
     mysqldb.commit()
