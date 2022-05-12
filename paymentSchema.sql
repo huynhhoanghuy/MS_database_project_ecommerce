@@ -8,7 +8,8 @@ CREATE TABLE PAYMENT (
     
     PRIMARY KEY (payment_id),
     order_id varchar(8) NOT NULL, 
-
+    FOREIGN KEY (order_id)
+	REFERENCES ORDERS (order_id),
 
     address_id varchar(8) NOT NULL,
     FOREIGN KEY (address_id)
