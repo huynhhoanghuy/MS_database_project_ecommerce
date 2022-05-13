@@ -97,6 +97,13 @@ if __name__ == "__main__":
     list_image = insert_list_image_data.list_image
     x = mongo_mycol.insert_many(list_image)
 
+    print("Show all product types have product type name = snack Oshi:")
+    myquery = {"product_type_name" : "snackOshi"}
+
+    mydoc = mongo_mydb["Product_type"].find(myquery)
+
+    for x in mydoc:
+        print(x)
     # user click on a category
     # clicked_id = int(input("Enter category id (taxon id):"))
 
