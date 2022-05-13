@@ -1,6 +1,7 @@
 import mysql.connector
 import pymongo
 from mongo_utilize import create_mongo_db, connect_mongo_db
+from mysql_utilize import create_mysql_db, connect_mysql_db, connect_mysql
 import insert_list_product_data, insert_list_product_type_data, insert_list_image_data
 from redis_db import RedisDB
 from sample_cart import sample_carts
@@ -23,30 +24,19 @@ def execute_schema(file_path):
 
 if __name__ == "__main__":
 
-    myconn = mysql.connector.connect(
-    host="localhost",
-    username="root",
-    password="hoangHuy0206")
+    """ 
+        THIS IS USER && PAYMENT SECTION. USE MYSQL
+        IT INCLUDE: CONNECT MYSQL, CREATE MYSQL DB, CONNECT MYSQL DB, CREATE SCHEMA BY QUERY, INSERT DATA BY QUERY
+    """
 
-    # tạo đối tượng cursor
-    cur = myconn.cursor()
-
-    try:
-        cur.execute("create database TEAM")
-        dbs = cur.execute("show databases")
-        for x in cur:
-            print(x)
-    except:
-        myconn.rollback()
-
+    myconn = connect_mysql(host="localhost", username="root", password="")
+    # create mysql db
+    create_mysql_db(myconn, name_db = "TEAM")
     myconn.close()
 
     # connect to mysql db
-    mysqldb = mysql.connector.connect(
-    host="localhost",
-    username="root",
-    password="hoangHuy0206",
-    database="TEAM")
+    mysqldb = connect_mysql_db(host="localhost", username="root", password="", database="TEAM")
+    
 
     mysqlcursor = mysqldb.cursor()
 
@@ -57,13 +47,12 @@ if __name__ == "__main__":
     #     password="U0yUKMhIQz",
     #     database="oFKYiTMu3e")
 
-    mysqlcursor = mysqldb.cursor()
+    # mysqlcursor = mysqldb.cursor()
 
-    execute_schema("schema.sql")
+    #execute_schema("schema.sql")
     execute_schema("userSchema.sql")
     execute_schema("orderSchema.sql")
     execute_schema("paymentSchema.sql")
-
     execute_schema("insert_user.sql")
     execute_schema("insert_orders.sql")
     execute_schema("insert_payment.sql")
@@ -75,6 +64,12 @@ if __name__ == "__main__":
     # insert data into product
     # execute_schema("insert_data_product.sql")
     mysqldb.commit()
+
+    """ 
+        THIS IS PRODUCT SECTION. USE MONGODB
+        IT INCLUDE: CONNECT MONGO, CREATE & CONNECT MONGO DB, CREATE COLLECTION, INSERT DATA
+    """
+
     # connect to mongo db
     # connect and create mongo db
     mongoclient = connect_mongo_db(MONGO_URI="mongodb://localhost:27017")
@@ -113,7 +108,11 @@ if __name__ == "__main__":
     # for row in result:
     #     print(row)
 
-    ######## CART SECTION ############
+
+    """ 
+        THIS IS CART SECTION. USE RedisDB
+        IT INCLUDE: CREATE & CONNECT RedisDB, CREATE COLLECTION, INSERT DATA, SOME QUERY
+    """
 
     redisDB = RedisDB()
 
