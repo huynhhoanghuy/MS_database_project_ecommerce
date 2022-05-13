@@ -2,9 +2,9 @@ import mysql.connector
 import pymongo
 from mongo_utilize import create_mongo_db, connect_mongo_db
 from mysql_utilize import create_mysql_db, connect_mysql_db, connect_mysql
-import insert_list_product_data, insert_list_product_type_data, insert_list_image_data
+from Insert_data import insert_list_product_data, insert_list_product_type_data, insert_list_image_data
 from redis_db import RedisDB
-from sample_cart import sample_carts
+from Insert_data.sample_cart import sample_carts
 
 
 def execute_schema(file_path):
@@ -29,13 +29,13 @@ if __name__ == "__main__":
         IT INCLUDE: CONNECT MYSQL, CREATE MYSQL DB, CONNECT MYSQL DB, CREATE SCHEMA BY QUERY, INSERT DATA BY QUERY
     """
 
-    myconn = connect_mysql(host="localhost", username="root", password="")
+    myconn = connect_mysql(host="localhost", username="root", password="hoangHuy0206")
     # create mysql db
     create_mysql_db(myconn, name_db = "TEAM")
     myconn.close()
 
     # connect to mysql db
-    mysqldb = connect_mysql_db(host="localhost", username="root", password="", database="TEAM")
+    mysqldb = connect_mysql_db(host="localhost", username="root", password="hoangHuy0206", database="TEAM")
     
 
     mysqlcursor = mysqldb.cursor()
@@ -50,12 +50,24 @@ if __name__ == "__main__":
     # mysqlcursor = mysqldb.cursor()
 
     #execute_schema("schema.sql")
-    execute_schema("userSchema.sql")
-    execute_schema("orderSchema.sql")
-    execute_schema("paymentSchema.sql")
-    execute_schema("insert_user.sql")
-    execute_schema("insert_orders.sql")
-    execute_schema("insert_payment.sql")
+    execute_schema("Schema\\userSchema.sql")
+    execute_schema("Schema\\orderSchema.sql")
+    execute_schema("Schema\\paymentSchema.sql")
+    execute_schema("Insert_data\\insert_user.sql")
+    execute_schema("Insert_data\\insert_orders.sql")
+    execute_schema("Insert_data\\insert_payment.sql")
+
+    # user click on a category
+
+
+    # Users created their account for 1 year
+    print("Pick users who created their account for 1 year:")
+    mysqlcursor.execute(
+        "select user_name from USER_INFO where EXTRACT(YEAR FROM create_at) < '2022' and EXTRACT(MONTH FROM create_at) < '05'")
+    result = mysqlcursor.fetchall()
+    for row in result:
+        print(row)
+
 
     mysqldb.commit()
     # insert data into taxon
@@ -97,6 +109,14 @@ if __name__ == "__main__":
     list_image = insert_list_image_data.list_image
     x = mongo_mycol.insert_many(list_image)
 
+    print("Show all product types have product type name = snack Oshi:")
+    myquery = {"product_type_name" : "snackOshi"}
+
+    mydoc = mongo_mydb["Product_type"].find(myquery)
+
+    for x in mydoc:
+        print(x)
+
     # user click on a category
     # clicked_id = int(input("Enter category id (taxon id):"))
 
@@ -132,7 +152,7 @@ if __name__ == "__main__":
     print("Cart of user {}".format(user2Id))
     print(redisDB.getCart(user2Id))
 
-    execute_schema("insert_order_related.sql")
+    execute_schema("Insert_data\\insert_order_related.sql")
     mysqldb.commit()
     # close connection to mysql db
     mysqldb.close()

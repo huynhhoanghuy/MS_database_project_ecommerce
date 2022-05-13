@@ -1,22 +1,22 @@
 import mysql.connector
 import pymongo
 
-def connect_mysql(host="localhost", username="root", password=""):
+def connect_mysql(host="localhost", username="root", password="hoangHuy0206"):
     try:
         myconn = mysql.connector.connect(
                 host="localhost",
                 username="root",
-                password="")
+                password="hoangHuy0206")
         return myconn
     except:
         print("CAN'T CONNECT MYSQL")
 
-def connect_mysql_db(host="localhost", username="root", password="", database="TEAM"):
+def connect_mysql_db(host="localhost", username="root", password="hoangHuy0206", database="TEAM"):
     try:
         mysqldb = mysql.connector.connect(
                 host="localhost",
                 username="root",
-                password="",
+                password="hoangHuy0206",
                 database="TEAM")
         return mysqldb
     except:

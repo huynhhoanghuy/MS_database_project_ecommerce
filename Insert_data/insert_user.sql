@@ -3,8 +3,8 @@ USE MySQLDB;
 INSERT INTO USER_INFO (user_id, user_name, email, email_verified, create_at)
 VALUES
     ("1", "Harry", "harry.gryffindor@gmail.com", TRUE, TIMESTAMP ('2022-03-23', '12:30:45')),
-    ("2", "Ron", "ron@gmail.com", TRUE, TIMESTAMP ('2022-04-22', '23:30:45')),
-    ("3", "Hermione", "hermi@gmail.com", FALSE, TIMESTAMP ('2022-05-01', '11:30:45'));
+    ("2", "Ron", "ron@gmail.com", TRUE, TIMESTAMP ('2021-06-22', '23:30:45')),
+    ("3", "Hermione", "hermi@gmail.com", FALSE, TIMESTAMP ('2020-03-01', '11:30:45'));
 
 INSERT INTO USER_ADDRESS (user_id, address_id, user_address, zip_code, country_code, is_billing, is_shipping)
 VALUES
