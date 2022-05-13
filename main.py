@@ -29,13 +29,13 @@ if __name__ == "__main__":
         IT INCLUDE: CONNECT MYSQL, CREATE MYSQL DB, CONNECT MYSQL DB, CREATE SCHEMA BY QUERY, INSERT DATA BY QUERY
     """
 
-    myconn = connect_mysql(host="localhost", username="root", password="hoangHuy0206")
+    myconn = connect_mysql(host="localhost", username="root", password="")
     # create mysql db
     create_mysql_db(myconn, name_db = "TEAM")
     myconn.close()
 
     # connect to mysql db
-    mysqldb = connect_mysql_db(host="localhost", username="root", password="hoangHuy0206", database="TEAM")
+    mysqldb = connect_mysql_db(host="localhost", username="root", password="", database="TEAM")
     
 
     mysqlcursor = mysqldb.cursor()
@@ -50,12 +50,12 @@ if __name__ == "__main__":
     # mysqlcursor = mysqldb.cursor()
 
     #execute_schema("schema.sql")
-    execute_schema("Schema\\userSchema.sql")
-    execute_schema("Schema\\orderSchema.sql")
-    execute_schema("Schema\\paymentSchema.sql")
-    execute_schema("Insert_data\\insert_user.sql")
-    execute_schema("Insert_data\\insert_orders.sql")
-    execute_schema("Insert_data\\insert_payment.sql")
+    execute_schema("Schema/userSchema.sql")
+    execute_schema("Schema/orderSchema.sql")
+    execute_schema("Schema/paymentSchema.sql")
+    execute_schema("Insert_data/insert_user.sql")
+    execute_schema("Insert_data/insert_orders.sql")
+    execute_schema("Insert_data/insert_payment.sql")
 
     # user click on a category
 
@@ -151,7 +151,7 @@ if __name__ == "__main__":
     print("Cart of user {}".format(user2Id))
     print(redisDB.getCart(user2Id))
 
-    execute_schema("Insert_data\\insert_order_related.sql")
+    execute_schema("Insert_data/insert_order_related.sql")
     mysqldb.commit()
     # close connection to mysql db
     mysqldb.close()

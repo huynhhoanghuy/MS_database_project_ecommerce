@@ -5,8 +5,8 @@ def connect_mysql(host="localhost", username="root", password="hoangHuy0206"):
     try:
         myconn = mysql.connector.connect(
                 host="localhost",
-                username="root",
-                password="hoangHuy0206")
+                username=username,
+                password=password)
         return myconn
     except:
         print("CAN'T CONNECT MYSQL")
@@ -15,8 +15,8 @@ def connect_mysql_db(host="localhost", username="root", password="hoangHuy0206",
     try:
         mysqldb = mysql.connector.connect(
                 host="localhost",
-                username="root",
-                password="hoangHuy0206",
+                username=username,
+                password=password,
                 database="TEAM")
         return mysqldb
     except:
