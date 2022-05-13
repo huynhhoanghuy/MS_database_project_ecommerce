@@ -116,7 +116,6 @@ if __name__ == "__main__":
 
     for x in mydoc:
         print(x)
-
     # user click on a category
     # clicked_id = int(input("Enter category id (taxon id):"))
 
