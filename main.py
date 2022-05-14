@@ -34,22 +34,10 @@ if __name__ == "__main__":
     create_mysql_db(myconn, name_db = "TEAM")
     myconn.close()
 
-    # connect to mysql db
+    # connect to mysql db 
     mysqldb = connect_mysql_db(host="localhost", username="root", password="", database="TEAM")
-    
-
     mysqlcursor = mysqldb.cursor()
 
-    # connect to mysql db
-    # mysqldb = mysql.connector.connect(
-    #     host="remotemysql.com",
-    #     username="oFKYiTMu3e",
-    #     password="U0yUKMhIQz",
-    #     database="oFKYiTMu3e")
-
-    # mysqlcursor = mysqldb.cursor()
-
-    #execute_schema("schema.sql")
     execute_schema("Schema/userSchema.sql")
     execute_schema("Schema/orderSchema.sql")
     execute_schema("Schema/paymentSchema.sql")
@@ -57,25 +45,21 @@ if __name__ == "__main__":
     execute_schema("Insert_data/insert_orders.sql")
     execute_schema("Insert_data/insert_payment.sql")
 
-    # user click on a category
 
 
     # Users created their account for 1 year
     print("Pick users who created their account for 1 year:")
     mysqlcursor.execute(
-        "select user_name from USER_INFO where EXTRACT(YEAR FROM create_at) < '2022' and EXTRACT(MONTH FROM create_at) < '05'")
+        "select user_name from USER_INFO where EXTRACT(YEAR FROM create_at) < '2022' and EXTRACT(MONTH FROM create_at) < '05' and EXTRACT(DAY FROM create_at) < '14'")
     result = mysqlcursor.fetchall()
     for row in result:
         print(row)
 
 
-    mysqldb.commit()
-    # insert data into taxon
-    # execute_schema("insert_data_taxon.sql")
 
-    # insert data into product
-    # execute_schema("insert_data_product.sql")
     mysqldb.commit()
+    #exit()
+
 
     """ 
         THIS IS PRODUCT SECTION. USE MONGODB
@@ -116,17 +100,18 @@ if __name__ == "__main__":
 
     for x in mydoc:
         print(x)
-    # user click on a category
-    # clicked_id = int(input("Enter category id (taxon id):"))
 
-    # # get all products that belong to this category
-    # print("Pick product from TEAM_PRODUCT with taxon_id:")
-    # mysqlcursor.execute(
-    #     "select * from TEAM_PRODUCT where taxon_id = {0}".format(clicked_id))
-    # result = mysqlcursor.fetchall()
-    # for row in result:
-    #     print(row)
 
+    print("Show all product types have product type id = s001S:")
+    myquery = {"product_type_id" : "s001S"}
+
+    mydoc = mongo_mydb["Product"].find(myquery)
+
+    for x in mydoc:
+        print(x)
+
+
+    #exit()
 
     """ 
         THIS IS CART SECTION. USE RedisDB
@@ -151,7 +136,7 @@ if __name__ == "__main__":
     print("Cart of user {}".format(user2Id))
     print(redisDB.getCart(user2Id))
 
-    execute_schema("Insert_data/insert_order_related.sql")
+    #execute_schema("Insert_data/insert_order_related.sql")
     mysqldb.commit()
     # close connection to mysql db
     mysqldb.close()
